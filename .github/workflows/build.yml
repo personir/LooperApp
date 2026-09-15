@@ -1,0 +1,25 @@
+name: Build iOS IPA
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Compile Swift Source
+        run: |
+          mkdir -p Payload/Looper.app
+          swiftc -sdk $(xcrun --sdk iphoneos --show-sdk-path) -target arm64-apple-ios14.0 AppDelegate.swift ViewController.swift -o Payload/Looper.app/Looper
+          cp Info.plist Payload/Looper.app/Info.plist
+
+      - name: Package IPA
+        run: |
+          zip -r Looper.ipa Payload
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Looper-IPA
+          path: Looper.ipa
