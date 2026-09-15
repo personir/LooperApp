@@ -17,6 +17,6 @@
         <string>audio</string>
     </array>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>We need access to select your videos.</string>
+    <string>Required to select video files for looping playback.</string>
 </dict>
 </plist>
